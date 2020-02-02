@@ -41,8 +41,8 @@ func BlogList(c *gin.Context) {
 	res := blogs.GetAll()
 
 	data := make(map[string]interface{})
-	data["lists"] = res
-	data["total"] = 1
+	data["result"] = res
+	data["count"] = 1
 
 	appG.Response(http.StatusOK, e.SUCCESS, data)
 }

@@ -3,7 +3,6 @@ package models
 import (
 	"database/sql"
 	"fmt"
-	"golang.org/x/net/dict"
 	"log"
 )
 
@@ -18,20 +17,22 @@ func (b *Blog) Add() *sql.Stmt {
 	return res
 }
 
-func (b *Blog) GetAll() map[string]interface{} {
+func (b *Blog) GetAll() []Blog {
 	query := "Select * From Blog"
 	rows := ReadQuery(query)
 
-	result := make(map[dict.Dict]interface{})
+	result := []Blog{}
 
-	data := make(map[string]interface{})
+	data := Blog{}
 	for rows.Next() {
 		err := rows.Scan(&b.Title, &b.Description)
 		if err != nil {
 			log.Fatal(err)
 		}
-		data["title"] = b.Title
-		data["description"] = b.Description
+		data.Title = b.Title
+		data.Description = b.Description
+
+		result = append(result, data)
 	}
-	return data
+	return result
 }
